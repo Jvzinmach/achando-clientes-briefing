@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Briefing Estratégico para Criação de Site</title>
+  <meta name="description" content="Responda a algumas perguntas simples para planejarmos o site ideal para o seu negócio.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #090a0f;
+      --card-bg: rgba(17, 19, 31, 0.45);
+      --card-border: rgba(255, 255, 255, 0.06);
+      --card-border-active: rgba(59, 130, 246, 0.4);
+      --accent-primary: #3b82f6;
+      --accent-secondary: #8b5cf6;
+      --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      --accent-gradient-hover: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      --text-primary: #f3f4f6;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --glass-blur: blur(20px);
+      --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+      padding: 20px;
+    }
+
+    /* Ambient background lights */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -100px;
+      left: -100px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: -150px;
+      right: -100px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      padding: 40px;
+      box-shadow: var(--shadow-premium);
+      position: relative;
+      z-index: 1;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      margin-bottom: 35px;
+      overflow: hidden;
+      display: none; /* Hidden on intro screen */
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-gradient);
+      border-radius: 10px;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Step animations */
+    .step {
+      display: none;
+      animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Typography */
+    h1, h2 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #ffffff 40%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .intro-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      color: var(--accent-primary);
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent-primary);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.5;
+    }
+
+    /* Interactive Options Grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 480px) {
+      .options-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .option-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.25s ease;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .option-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .option-card.selected {
+      background: rgba(59, 130, 246, 0.08);
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+    }
+
+    .option-card .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--text-muted);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .option-card.selected .checkbox {
+      border-color: var(--accent-primary);
+      background: var(--accent-primary);
+    }
+
+    .option-card.selected .checkbox::after {
+      content: '✓';
+      color: white;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    /* Navigation Buttons */
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 35px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25);
+      flex-grow: 1;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-gradient-hover);
+      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-primary);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .channel-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: white;
+      border: none;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+      width: 100%;
+    }
+
+    .btn-whatsapp:hover {
+      background: #20ba5a;
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="form-container">
+    
+    <!-- Progress Indicator -->
+    <div class="progress-container" id="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- Intro Screen -->
+    <div class="step active" id="step-intro">
+      <div class="intro-badge">✨ Planejamento Estratégico</div>
+      <h1>Vamos tirar a sua ideia do papel</h1>
+      <p class="subtitle">Este briefing guiará o design e a estratégia do seu novo site. Leva apenas cerca de 3 minutos para responder.</p>
+      
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="nextStep()">Começar Briefing →</button>
+      </div>
+    </div>
+
+    <!-- Step 1: Identificação -->
+    <div class="step" id="step-1">
+      <h2>Quem é você e qual seu negócio?</h2>
+      <p class="subtitle">Esses detalhes iniciais nos ajudam a sintonizar a linguagem.</p>
+      
+      <div class="form-group">
+        <label for="client-name">Seu Nome</label>
+        <input type="text" id="client-name" placeholder="Ex: Dr. Marcelo / Amanda Santos">
+      </div>
+      
+      <div class="form-group">
+        <label for="business-name">Nome da Empresa ou Profissão</label>
+        <input type="text" id="business-name" placeholder="Ex: Marcenaria Silva / Clínica Sorrir Sempre">
+      </div>
+
+      <div class="form-group">
+        <label for="client-phone">Seu WhatsApp</label>
+        <input type="text" id="client-phone" placeholder="Ex: (27) 99999-9999" maxlength="15">
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+        <button class="btn btn-primary" id="btn-next-1" onclick="nextStep()" disabled>Avançar →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Objetivo -->
+    <div class="step" id="step-2">
+      <h2>1. Qual o principal objetivo do site?</h2>
+      <p class="subtitle">O que você deseja que a pessoa faça imediatamente ao entrar no seu site?</p>
+      
+      <div class="options-grid">
+        <div class="option-card" onclick="selectObjective(this, 'Fazer o cliente agendar consulta/serviço no WhatsApp')">
+          <div class="checkbox"></div>
+          <span>Agendamentos no WhatsApp</span>
+        </div>
+        <div class="option-card" onclick="selectObjective(this, 'Pedir orçamentos detalhados de projetos')">
+          <div class="checkbox"></div>
+          <span>Orçamentos de Serviços</span>
+        </div>
+        <div class="option-card" onclick="selectObjective(this, 'Posicionar meu nome como autoridade e tirar dúvidas')">
+          <div class="checkbox"></div>
+          <span>Autoridade e Dúvidas</span>
+        </div>
+        <div class="option-card" onclick="selectObjective(this, 'Outro objetivo personalizado')">
+          <div class="checkbox"></div>
+          <span>Outro Objetivo</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="q1-detail">Conte-nos um pouco mais sobre esse objetivo</label>
+        <textarea id="q1-detail" placeholder="Descreva com suas palavras o que espera que o site traga de resultados..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+        <button class="btn btn-primary" onclick="nextStep()">Avançar →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Público-alvo -->
+    <div class="step" id="step-3">
+      <h2>2. Quem é o seu cliente ideal?</h2>
+      <p class="subtitle">Descreva quem é a pessoa que você mais quer atrair com o novo site.</p>
+      
+      <div class="form-group">
+        <label for="q2-answer">Perfil do Cliente Ideal</label>
+        <textarea id="q2-answer" placeholder="Ex: Pessoas de alto padrão buscando cirurgias estéticas, famílias comprando apartamento e precisando de móveis sob medida..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+        <button class="btn btn-primary" onclick="nextStep()">Avançar →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Serviços em Destaque -->
+    <div class="step" id="step-4">
+      <h2>3. Quais serviços destacar?</h2>
+      <p class="subtitle">Quais são os 3 principais serviços ou tratamentos que trazem mais retorno para você?</p>
+      
+      <div class="form-group">
+        <label for="q3-answer">Principais Serviços / Tratamentos</label>
+        <textarea id="q3-answer" placeholder="1. Ex: Implantes Dentários&#10;2. Ex: Harmonização Facial&#10;3. Ex: Clareamento a Laser"></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+        <button class="btn btn-primary" onclick="nextStep()">Avançar →</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Diferencial do Negócio -->
+    <div class="step" id="step-5">
+      <h2>4. Qual é o seu diferencial?</h2>
+      <p class="subtitle">Por que o cliente deve escolher você e não o concorrente do lado?</p>
+      
+      <div class="form-group">
+        <label for="q4-answer">Seus Diferenciais</label>
+        <textarea id="q4-answer" placeholder="Ex: Equipamentos de última geração, material com 10 anos de garantia, atendimento focado em pessoas com medo de dentista, pontualidade..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+        <button class="btn btn-primary" onclick="nextStep()">Avançar →</button>
+      </div>
+    </div>
+
+    <!-- Step 6: Identidade Visual e Fotos -->
+    <div class="step" id="step-6">
+      <h2>5. Material de Apoio</h2>
+      <p class="subtitle">Você já possui identidade visual (marca) e fotos próprias para o site?</p>
+      
+      <div class="options-grid">
+        <div class="option-card" onclick="selectMaterial(this, 'Possui marca e logotipo definidos')">
+          <div class="checkbox"></div>
+          <span>Já possuo Logotipo</span>
+        </div>
+        <div class="option-card" onclick="selectMaterial(this, 'Possui fotos profissionais próprias')">
+          <div class="checkbox"></div>
+          <span>Tenho Fotos Reais</span>
+        </div>
+        <div class="option-card" onclick="selectMaterial(this, 'Precisa que o designer busque imagens')">
+          <div class="checkbox"></div>
+          <span>Preciso de Imagens de Apoio</span>
+        </div>
+        <div class="option-card" onclick="selectMaterial(this, 'Precisa criar logotipo/marca do zero')">
+          <div class="checkbox"></div>
+          <span>Preciso criar Logotipo</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="q5-detail">Algum detalhe adicional sobre o design?</label>
+        <textarea id="q5-detail" placeholder="Ex: Prefiro cores escuras/luxuosas, ou prefiro algo bem limpo, moderno e na cor azul..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+        <button class="btn btn-primary" id="btn-submit-briefing" onclick="compileAndShowSummary()">Finalizar Briefing ✓</button>
+      </div>
+    </div>
+
+    <!-- Step Final: Sucesso -->
+    <div class="step" id="step-success">
+      <div class="intro-badge" style="color: #10b981; background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.1);">✓ Briefing Salvo</div>
+      <h1>Briefing Concluído!</h1>
+      <p class="subtitle">Salvamos suas informações no sistema com sucesso. Para iniciarmos o desenvolvimento do seu site, siga os passos abaixo:</p>
+      
+      <!-- Card Premium de Informações de Pagamento e Arquivos -->
+      <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; margin-bottom: 25px; font-size: 0.95rem; line-height: 1.6;">
+        <div style="margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 1.2rem; line-height: 1;">💳</span>
+          <div>
+            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Condições de Pagamento:</strong>
+            <span style="color: var(--text-secondary);">Trabalhamos com 50% de sinal para início do projeto e 50% na entrega final (quando o site estiver pronto, antes de publicar), ou 100% no cartão parcelado.</span>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 1.2rem; line-height: 1;">📂</span>
+          <div>
+            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Arquivos de Apoio:</strong>
+            <span style="color: var(--text-secondary);">Por favor, clique no botão abaixo para nos enviar seu logotipo oficial e fotos reais dos seus serviços/produtos para personalizarmos o site.</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="channel-buttons">
+        <button class="btn btn-whatsapp" onclick="redirectToWhatsApp()">
+          <svg style="width: 20px; height: 20px; fill: white;" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.59 2.016 14.12 1.01 11.999 1.01 6.563 1.01 2.139 5.381 2.135 10.81c-.001 1.694.453 3.35 1.316 4.831L2.43 21.054l6.217-1.63zM18.29 16.5c-.3-.15-1.785-.88-2.067-.98-.282-.1-.488-.15-.692.15-.204.3-.79.98-.97 1.18-.18.2-.359.22-.659.07-2.956-1.48-4.887-4.49-5.6-5.72-.18-.3-.02-.46.13-.61.135-.135.3-.35.45-.52.15-.17.2-.28.3-.47.1-.2.05-.37-.025-.52-.075-.15-.692-1.67-.95-2.29-.25-.61-.51-.53-.692-.54-.18-.01-.39-.01-.6-.01-.21 0-.55.08-.84.4-.29.32-1.1.98-1.1 2.4 0 1.42 1.03 2.79 1.17 2.98.15.2 2.03 3.1 4.92 4.35.688.29 1.228.47 1.648.6.69.22 1.32.19 1.82.11.55-.08 1.785-.73 2.037-1.44.25-.71.25-1.32.17-1.44-.08-.12-.29-.19-.59-.34z"/></svg>
+          Enviar Arquivos pelo WhatsApp
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Desenvolvido com carinho para o seu negócio.
+  </footer>
+
+  <script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.step');
+    const progressBar = document.getElementById('progress-bar');
+    const progressContainer = document.getElementById('progress-container');
+    const clientNameInput = document.getElementById('client-name');
+    const businessNameInput = document.getElementById('business-name');
+    const clientPhoneInput = document.getElementById('client-phone');
+    const btnNext1 = document.getElementById('btn-next-1');
+
+    // Objectives list
+    let selectedObjectives = [];
+    // Materials list
+    let selectedMaterials = [];
+
+    // Máscara de telefone automática (XX) XXXXX-XXXX
+    clientPhoneInput.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 10) {
+        value = `(${value.slice(0,2)}) ${value.slice(2,7)}-${value.slice(7)}`;
+      } else if (value.length > 6) {
+        value = `(${value.slice(0,2)}) ${value.slice(2,6)}-${value.slice(6)}`;
+      } else if (value.length > 2) {
+        value = `(${value.slice(0,2)}) ${value.slice(2)}`;
+      } else if (value.length > 0) {
+        value = `(${value}`;
+      }
+      e.target.value = value;
+      validateStep1();
+    });
+
+    // Form inputs validation (Step 1)
+    function validateStep1() {
+      const phoneDigits = clientPhoneInput.value.replace(/\D/g, '');
+      if (
+        clientNameInput.value.trim().length > 1 && 
+        businessNameInput.value.trim().length > 1 && 
+        phoneDigits.length >= 10
+      ) {
+        btnNext1.removeAttribute('disabled');
+      } else {
+        btnNext1.setAttribute('disabled', 'true');
+      }
+    }
+
+    clientNameInput.addEventListener('input', validateStep1);
+    businessNameInput.addEventListener('input', validateStep1);
+
+    function showStep(index) {
+      steps.forEach((step, i) => {
+        if (i === index) {
+          step.classList.add('active');
+        } else {
+          step.classList.remove('active');
+        }
+      });
+
+      // Update progress bar
+      if (index === 0) {
+        progressContainer.style.display = 'none';
+      } else if (index === steps.length - 1) {
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '100%';
+      } else {
+        progressContainer.style.display = 'block';
+        const progressPercentage = ((index) / (steps.length - 2)) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+      }
+    }
+
+    function nextStep() {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep(currentStep);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    }
+
+    function selectObjective(element, text) {
+      element.classList.toggle('selected');
+      if (element.classList.contains('selected')) {
+        selectedObjectives.push(text);
+      } else {
+        selectedObjectives = selectedObjectives.filter(item => item !== text);
+      }
+    }
+
+    function selectMaterial(element, text) {
+      element.classList.toggle('selected');
+      if (element.classList.contains('selected')) {
+        selectedMaterials.push(text);
+      } else {
+        selectedMaterials = selectedMaterials.filter(item => item !== text);
+      }
+    }
+
+    async function compileAndShowSummary() {
+      const clientName = clientNameInput.value.trim();
+      const businessName = businessNameInput.value.trim();
+      const clientPhone = clientPhoneInput.value.trim().replace(/\D/g, '');
+      const q1Detail = document.getElementById('q1-detail').value.trim();
+      const q2 = document.getElementById('q2-answer').value.trim();
+      const q3 = document.getElementById('q3-answer').value.trim();
+      const q4 = document.getElementById('q4-answer').value.trim();
+      const q5Detail = document.getElementById('q5-detail').value.trim();
+
+      const payload = {
+        name: clientName,
+        phone: clientPhone,
+        business_name: businessName,
+        objectives: selectedObjectives,
+        objective_detail: q1Detail,
+        ideal_client: q2,
+        services: q3,
+        differentials: q4,
+        materials: selectedMaterials,
+        visual_detail: q5Detail
+      };
+
+      const btnFinish = document.getElementById('btn-submit-briefing');
+      if (btnFinish) {
+        btnFinish.setAttribute('disabled', 'true');
+        btnFinish.innerText = 'Enviando...';
+      }
+
+      try {
+        const response = await fetch('/api/briefing', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+          console.log('✅ Briefing enviado com sucesso para o servidor!');
+        } else {
+          console.error('❌ Erro no envio do briefing:', result.error || 'Erro desconhecido');
+        }
+      } catch (err) {
+        console.error('❌ Falha na conexão com a API:', err);
+      }
+
+      nextStep();
+    }
+
+    function redirectToWhatsApp() {
+      const businessName = businessNameInput.value.trim() || 'Meu Negócio';
+      const text = `Olá Pedro! Concluí o preenchimento do meu briefing para o site da *${businessName}*. Estou entrando em contato para enviar minha logotipo e fotos dos meus serviços/produtos.`;
+      const encodedText = encodeURIComponent(text);
+      const whatsappUrl = `https://wa.me/5527998477030?text=${encodedText}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  </script>
+</body>
+</html>

@@ -687,6 +687,9 @@
         visual_detail: q5Detail
       };
 
+      // Armazena o payload globalmente para uso no WhatsApp
+      lastBriefingPayload = payload;
+
       const btnFinish = document.getElementById('btn-submit-briefing');
       if (btnFinish) {
         btnFinish.setAttribute('disabled', 'true');
@@ -715,9 +718,45 @@
       nextStep();
     }
 
+    let lastBriefingPayload = null;
+
+    function formatBriefingForWhatsApp(payload) {
+      const objectivesText = (payload.objectives || []).join(', ') || 'Nenhum selecionado';
+      const materialsText = (payload.materials || []).join(', ') || 'Nenhum selecionado';
+      const rawPhone = clientPhoneInput.value.trim();
+      
+      let text = `*Resumo do Briefing - ${payload.business_name}*\n\n`;
+      text += `*Cliente:* ${payload.name}\n`;
+      text += `*WhatsApp:* ${rawPhone}\n\n`;
+      
+      text += `*1. Objetivos do site:*\n- ${objectivesText}\n`;
+      if (payload.objective_detail) {
+        text += `_Detalhes:_ ${payload.objective_detail}\n`;
+      }
+      text += `\n`;
+      
+      text += `*2. Cliente Ideal:*\n${payload.ideal_client || 'Não informado'}\n\n`;
+      text += `*3. Serviços em Destaque:*\n${payload.services || 'Não informado'}\n\n`;
+      text += `*4. Principais Diferenciais:*\n${payload.differentials || 'Não informado'}\n\n`;
+      
+      text += `*5. Material de Apoio:*\n- ${materialsText}\n`;
+      if (payload.visual_detail) {
+        text += `_Detalhes Visuais:_ ${payload.visual_detail}\n`;
+      }
+      
+      text += `\n---------------------------------\n`;
+      text += `Olá Pedro! Concluí o briefing acima. Estou entrando em contato para enviar meu logotipo oficial e fotos reais.`;
+      return text;
+    }
+
     function redirectToWhatsApp() {
       const businessName = businessNameInput.value.trim() || 'Meu Negócio';
-      const text = `Olá Pedro! Concluí o preenchimento do meu briefing para o site da *${businessName}*. Estou entrando em contato para enviar minha logotipo e fotos dos meus serviços/produtos.`;
+      let text = '';
+      if (lastBriefingPayload) {
+        text = formatBriefingForWhatsApp(lastBriefingPayload);
+      } else {
+        text = `Olá Pedro! Concluí o preenchimento do meu briefing para o site da *${businessName}*. Estou entrando em contato para enviar minha logotipo e fotos dos meus serviços/produtos.`;
+      }
       const encodedText = encodeURIComponent(text);
       const whatsappUrl = `https://wa.me/5527998477030?text=${encodedText}`;
       window.open(whatsappUrl, '_blank');
